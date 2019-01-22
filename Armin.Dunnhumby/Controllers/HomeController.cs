@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Armin.Dunnhumby.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Armin.Dunnhumby.Models;
 
-namespace Armin.Dunnhumby.Controllers
+namespace Armin.Dunnhumby.Web.Controllers
 {
     public class HomeController : Controller
     {

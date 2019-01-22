@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armin.Dunnhumby", "Armin.Dunnhumby\Armin.Dunnhumby.csproj", "{9319BB3B-CF76-47A6-A78C-37DA8F2C14FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armin.Dunnhumby.Web", "Armin.Dunnhumby\Armin.Dunnhumby.Web.csproj", "{9319BB3B-CF76-47A6-A78C-37DA8F2C14FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armin.Dunnhumby.Tests", "Armin.Dunnhumby.Tests\Armin.Dunnhumby.Tests.csproj", "{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9319BB3B-CF76-47A6-A78C-37DA8F2C14FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9319BB3B-CF76-47A6-A78C-37DA8F2C14FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9319BB3B-CF76-47A6-A78C-37DA8F2C14FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

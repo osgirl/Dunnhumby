@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Armin.Dunnhumby.Web.Data.Migrations
+namespace Armin.Dunnhumby.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

@@ -1,6 +1,4 @@
-using System;
-
-namespace Armin.Dunnhumby.Models
+namespace Armin.Dunnhumby.Web.Models
 {
     public class ErrorViewModel
     {
