@@ -36,7 +36,7 @@ namespace Armin.Dunnhumby.Web.Data.Migrations
                     Description = table.Column<string>(nullable: true),
                     ProductId = table.Column<int>(),
                     Start = table.Column<DateTime>(),
-                    End = table.Column<DateTime?>(nullable: true),
+                    End = table.Column<DateTime>(),
                     LastUpdate = table.Column<DateTime?>(nullable: true)
                 },
                 constraints: table =>

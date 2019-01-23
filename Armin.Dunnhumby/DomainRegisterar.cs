@@ -1,4 +1,8 @@
-﻿using Armin.Dunnhumby.Web.Stores;
+﻿using Armin.Dunnhumby.Web.Filters;
+using Armin.Dunnhumby.Web.Models;
+using Armin.Dunnhumby.Web.Services;
+using Armin.Dunnhumby.Web.Stores;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Armin.Dunnhumby.Web
@@ -9,7 +13,9 @@ namespace Armin.Dunnhumby.Web
         {
             service.AddScoped<IProductStore, ProductStore>();
             service.AddScoped<ICampaignStore, CampaignStore>();
+            service.AddScoped<ICampaignService, CampaignService>();
 
+            service.AddTransient<IValidator<CampaignInputModel>, CampaignValidator>();
         }
     }
 }

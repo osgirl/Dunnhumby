@@ -43,16 +43,16 @@ namespace Armin.Dunnhumby.Web.Helpers
         /// <summary>
         /// Fetch and create paged result from a query
         /// </summary>
-        /// <typeparam name="InType">Type of data to fetch</typeparam>
-        /// <typeparam name="OutType">Output model type</typeparam>
+        /// <typeparam name="TInType">Type of data to fetch</typeparam>
+        /// <typeparam name="TOutType">Output model type</typeparam>
         /// <param name="query">Linq query</param>
         /// <param name="setter">A function to convert in data type to out type</param>
         /// <param name="pageNo">Number of page start with 1</param>
         /// <param name="pageSize">Number of items in a page</param>
         /// <returns>Fetched data with paging information</returns>
-        public static PagedResult<InType, OutType> ToPageOf<InType, OutType>(this IQueryable<InType> query, Func<InType, OutType> setter, int pageNo = 1, int pageSize = 10)
+        public static PagedResult<TInType, TOutType> ToPageOf<TInType, TOutType>(this IQueryable<TInType> query, Func<TInType, TOutType> setter, int pageNo = 1, int pageSize = 10)
         {
-            var result = new PagedResult<InType, OutType>()
+            var result = new PagedResult<TInType, TOutType>()
             {
                 PageSize = pageSize
             };

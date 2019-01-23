@@ -9,6 +9,8 @@ namespace Armin.Dunnhumby.Web.Stores
     {
         T GetById(int id);
 
+        bool Exists(int id);
+
         T Create(T entity);
 
         void Update(T entity);

@@ -4,7 +4,17 @@ using System.Linq;
 
 namespace Armin.Dunnhumby.Web.Helpers
 {
-    public class PagedResult<TModel>
+    public interface IPagedResult
+    {
+        int Page { get; set; }
+        int PageSize { get; set; }
+        int PageCount { get; set; }
+        int RecordCount { get; set; }
+        bool HasNext { get; }
+        bool HasPrev { get; }
+    }
+
+    public class PagedResult<TModel> : IPagedResult
     {
         public PagedResult()
         {
@@ -17,6 +27,10 @@ namespace Armin.Dunnhumby.Web.Helpers
         public int PageCount { get; set; }
         public int RecordCount { get; set; }
         public List<TModel> Data { get; set; }
+
+        public bool HasNext => Page < PageCount;
+
+        public bool HasPrev => Page > 1;
 
         public PagedResult<TModel> GetPagedData(int pageNo, IQueryable<TModel> queryableData)
         {

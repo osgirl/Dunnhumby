@@ -36,6 +36,11 @@ namespace Armin.Dunnhumby.Web.Stores
             return Entities.Find(id);
         }
 
+        public virtual bool Exists(int id)
+        {
+            return Entities.Any(e => e.Id == id);
+        }
+
 
         public virtual void Update(T entity)
         {

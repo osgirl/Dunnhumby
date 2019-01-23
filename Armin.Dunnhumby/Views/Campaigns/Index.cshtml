@@ -1,0 +1,87 @@
+﻿@using Armin.Dunnhumby.Web.Models
+@model Armin.Dunnhumby.Web.Helpers.PagedResult<Armin.Dunnhumby.Web.Models.CampaignOutputModel>
+
+@{
+    ViewData["Title"] = "Campaigns";
+    var data = Model.Data;
+    var active = (ActiveStates) ViewData["active"] == ActiveStates.Active;
+    var activeUrl = Url.Action("Index", new {active = ActiveStates.Active});
+    var allUrl = Url.Action("Index", new {active = ActiveStates.All});
+}
+
+<h1>Index</h1>
+
+<p>
+
+
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <div class="form-group">
+        <label for="active"></label>
+        @if (active)
+        {
+            <input name="active" type="checkbox" checked="checked" onchange="window.location.replace('@allUrl');"/>
+        }
+        else
+        {
+            <input name="active" type="checkbox" onchange="window.location.replace('@activeUrl');"/>
+        }
+        Show Actives
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Product
+        </th>
+        <th>
+            Start
+        </th>
+        <th>
+            End
+        </th>
+        <th>
+            LastUpdate
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in data)
+    {
+        var start = item.Start.ToShortDateString();
+        var end = item.End.ToShortDateString();
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @start
+            </td>
+            <td>
+                @end
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_Paging", Model, new ViewDataDictionary(ViewData)
+{
+    {"link", active ? activeUrl : allUrl}
+})

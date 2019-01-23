@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Armin.Dunnhumby.Web.Entities;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Armin.Dunnhumby.Web.Models
 {
@@ -19,18 +21,16 @@ namespace Armin.Dunnhumby.Web.Models
             };
         }
 
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
 
         public string Description { get; set; }
 
         public int ProductId { get; set; }
 
 
-        [Required]
-        public DateTime Start { get; set; }
+        [Required] public DateTime Start { get; set; }
 
-        public DateTime? End { get; set; }
+        public DateTime End { get; set; }
     }
 
 
@@ -43,16 +43,16 @@ namespace Armin.Dunnhumby.Web.Models
                 Id = p.Id,
                 LastUpdate = p.LastUpdate,
                 Name = p.Name,
-                ProductId = p.ProductId,
+
                 Start = p.Start,
                 End = p.End,
                 Description = p.Description,
-                ProductName = p.Product == null ? "" : p.Product.Name
+                Product = new CampaignProductOutputModel(p.ProductId, p.Product == null ? "" : p.Product.Name),
+                IsActive = p.Start <= DateTime.Now && p.End >= DateTime.Now
             };
 
             return model;
         }
-
 
 
         public long Id { get; set; }
@@ -62,13 +62,33 @@ namespace Armin.Dunnhumby.Web.Models
         public DateTime? LastUpdate { get; set; }
         public string Description { get; set; }
 
-        public int ProductId { get; set; }
+        public CampaignProductOutputModel Product { get; set; } = new CampaignProductOutputModel();
 
-        public string ProductName { get; set; }
-
+        [JsonProperty]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Start { get; set; }
 
-        public DateTime? End { get; set; }
+        [JsonProperty]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime End { get; set; }
 
+        public bool IsActive { get; set; }
+    }
+
+    public class CampaignProductOutputModel
+    {
+        public CampaignProductOutputModel()
+        {
+        }
+
+        public CampaignProductOutputModel(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

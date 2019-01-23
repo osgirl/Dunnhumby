@@ -23,6 +23,7 @@ namespace Armin.Dunnhumby.Web.Entities
         [Required]
         public DateTime Start { get; set; }
 
-        public DateTime? End { get; set; }
+        [Required]
+        public DateTime End { get; set; }
     }
 }

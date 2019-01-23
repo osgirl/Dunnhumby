@@ -26,9 +26,10 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
 
         // GET api/v1/campaigns/list
         [HttpGet("list", Name = "ListCampaigns")]
-        public ActionResult<PagedResult<IEnumerable<CampaignOutputModel>>> Search([FromQuery] int page = 1, [FromQuery] int size = 10)
+        [ResponseCache(Duration = 30, VaryByQueryKeys = new[] {"page", "size"})]
+        public ActionResult<PagedResult<IEnumerable<CampaignOutputModel>>> Search([FromQuery] int page = 1,
+            [FromQuery] int size = 10)
         {
-
             var campaigns = _store.List(page, size);
             List<CampaignOutputModel> campaignsOutput = campaigns.Data.Select(CampaignOutputModel.FromEntity).ToList();
             PagedResult<CampaignOutputModel> campaignsOutputPage = new PagedResult<CampaignOutputModel>()
@@ -73,7 +74,7 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
 
             var outputModel = CampaignOutputModel.FromEntity(campaign);
             return CreatedAtRoute("ViewCampaign",
-                new { id = outputModel.Id }, outputModel);
+                new {id = outputModel.Id}, outputModel);
         }
 
         // PUT api/v1/campaigns

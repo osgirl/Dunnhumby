@@ -12,14 +12,15 @@ namespace Armin.Dunnhumby.Web.Models
             return new Product
             {
                 Name = Name,
-                Price = Price
+                Price = Price,
+                Description = Description
             };
         }
 
 
         [Required] public string Name { get; set; }
 
-        public IFormFile Photo { get; set; }
+        public string Description { get; set; }
 
         [Required]
         [Range(0.0, (double)decimal.MaxValue)]

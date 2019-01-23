@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Routing
+@model Armin.Dunnhumby.Web.Helpers.PagedResult<Armin.Dunnhumby.Web.Models.ProductOutputModel>
+
+@{
+    ViewData["Title"] = "Products";
+    var data = Model.Data;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Last Update
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in data)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_Paging", Model, new ViewDataDictionary(ViewData)
+{
+    {"link", "/Products"}
+})

@@ -27,10 +27,11 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
 
         // GET api/v1/products/list
         [HttpGet("list", Name = "ListProduct")]
-        public ActionResult<PagedResult<IEnumerable<ProductOutputModel>>> Search([FromQuery] int page = 1, [FromQuery] int size = 10)
+        [ResponseCache(Duration = 30, VaryByQueryKeys = new[] {"page", "size"})]
+        public ActionResult<PagedResult<IEnumerable<ProductOutputModel>>> List([FromQuery] int page = 1,
+            [FromQuery] int size = 10)
         {
-
-            var products =  _store.List(page, size);
+            var products = _store.List(page, size);
             List<ProductOutputModel> productsOutput = products.Data.Select(ProductOutputModel.FromEntity).ToList();
             PagedResult<ProductOutputModel> productsOutputPage = new PagedResult<ProductOutputModel>()
             {
@@ -74,7 +75,7 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
 
             var outputModel = ProductOutputModel.FromEntity(product);
             return CreatedAtRoute("ViewProduct",
-                new { id = outputModel.Id }, outputModel);
+                new {id = outputModel.Id}, outputModel);
         }
 
         // PUT api/v1/products
@@ -90,6 +91,7 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
 
             product.Name = inputModel.Name;
             product.Price = inputModel.Price;
+            product.Description = inputModel.Description;
 
 
             _store.Update(product);

@@ -17,7 +17,7 @@ namespace Armin.Dunnhumby.Web.Data.Seed
 
 
             builder.Entity<Campaign>().HasData(
-                new Campaign { Id = 1, Name = "Cyber Monday", Start = DateTime.Now, ProductId = 1});
+                new Campaign { Id = 1, Name = "Cyber Monday", Start = DateTime.Now, End = DateTime.Now.AddDays(10), ProductId = 1});
         }
     }
 }

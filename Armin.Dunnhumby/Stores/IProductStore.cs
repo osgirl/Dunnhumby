@@ -9,6 +9,9 @@ namespace Armin.Dunnhumby.Web.Stores
     {
         Product Create(Product entity);
         Product GetById(int id);
+
+        bool Exists(int id);
+
         void Update(Product entity);
         void Delete(Product entity);
         Task<IEnumerable<Product>> Search(string name);
