@@ -4,5 +4,37 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <p>Armin Rasoulzadeh project for campaigns list system</p>
+    <h2>Note</h2>
+    <ul>
+        <li>To keep the work simple some aspect omited such as: Clean up in test files</li>
+        <li>However suggested to used GUID as entity Id, I used integers for this purpose. It is due to the fact that integer takes less data in database. It is really easy to change the datatype to GUID by just changing EntityBase and some points in stores.</li>
+    </ul>
+
+    <h2>Requirments to run the project</h2>
+    <ul>
+        <li>.NET Core 2.2</li>
+        <li>Visual Studio 2017</li>
+        <li>SQL Server File DB</li>
+        <li>Database ConnectionStrings can be change in appsettings.json</li>
+    </ul>
+
+    <h2>Points covered in this project</h2>
+    <ol>
+        <li>Table display of products/campaigns</li>
+        <li>Filter active/inactive</li>
+        <li>Pagination setup</li>
+        <li>Some basic validation setup</li>
+        <li>DB schema</li>
+        <li>RESTful endpoints</li>
+        <li>Read/Write for both campaign and product</li>
+        <li>Pagination support through query params</li>
+        <li>Some basic validation and data sanitization</li>
+        <li>Migration/seeding setup</li>
+        <li>Base unit tests setup</li>
+        <li>Sever Side Rendering (SSR) setup</li>
+        <li>Basic caching setup</li>
+    </ol>
 </div>
