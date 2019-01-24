@@ -36,7 +36,7 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
             var postCount = _db.Products.Count();
 
             Assert.Equal(prd.Name, prdAfter.Name);
-            Assert.Equal(preCount + 1, postCount);
+            Assert.True(preCount < postCount);
 
             var prd1 = new Product
             {

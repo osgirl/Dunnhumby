@@ -23,12 +23,12 @@ namespace Armin.Dunnhumby.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
 
-            services.AddDependancies();
+            services.AddDependancies(); // Application dependancies
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -45,10 +45,10 @@ namespace Armin.Dunnhumby.Web
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddResponseCaching(); // Cache middleware
+            services.AddResponseCaching(); // Response cache middleware
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddFluentValidation();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Campaigns API", Version = "v1" });
@@ -56,7 +56,7 @@ namespace Armin.Dunnhumby.Web
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -68,6 +68,8 @@ namespace Armin.Dunnhumby.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // For showcase simplicity, I added automatic database creation here
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -83,8 +85,7 @@ namespace Armin.Dunnhumby.Web
 
             app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.) the API documentation, 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Campaigns API V1");

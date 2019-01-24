@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Armin.Dunnhumby.Web.Controllers.Api
 {
-    // https://www.c-sharpcorner.com/article/creating-crud-api-in-asp-net-core-2-0/
-
     [Route("api/v1/campaigns")]
     [ApiController]
     [ValidateModelState]

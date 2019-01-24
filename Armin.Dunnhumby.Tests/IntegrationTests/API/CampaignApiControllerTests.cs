@@ -28,7 +28,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
         {
             var client = _factory.CreateClient();
 
-            // POST Create
+            // POST Create a product for later test purposes
             var pim = new ProductInputModel()
             {
                 Name = "CreatedWithTest",
@@ -60,6 +60,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             Assert.Equal(cim.Name, createdCampaign.Name);
 
 
+
             // List Campaigns
             var response = await client.GetAsync(BaseUrl + "/list/");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -67,6 +68,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             responseString = await response.Content.ReadAsStringAsync();
             var listResult = JsonConvert.DeserializeObject<PagedResult<ProductOutputModel>>(responseString);
             Assert.True(listResult.RecordCount > 0);
+
 
 
             // PUT Update
@@ -84,6 +86,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
 
 
+
             // GET with id
             var getResponse = await client.GetAsync($"{BaseUrl}/{createdCampaign.Id}");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
@@ -93,10 +96,11 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             Assert.Equal("ChangedNameInTest", getModel.Name);
 
 
-            // DELETE with id
 
+            // DELETE with id
             var deleteResponse = await client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+
 
             // GET with id
             var getNoResponse = await client.GetAsync($"{BaseUrl}/{getModel.Id}");

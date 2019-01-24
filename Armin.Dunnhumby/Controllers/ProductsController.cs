@@ -53,8 +53,6 @@ namespace Armin.Dunnhumby.Web.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([FromForm] ProductInputModel inputModel)
@@ -79,13 +77,13 @@ namespace Armin.Dunnhumby.Web.Controllers
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [FromForm] ProductInputModel inputModel)
         {
-            if (inputModel == null || !ModelState.IsValid) return View(inputModel.ToEntity());
+            if (inputModel == null) return View();
+            if (!ModelState.IsValid) return View(inputModel.ToEntity());
+
             int productId = id;
 
             try

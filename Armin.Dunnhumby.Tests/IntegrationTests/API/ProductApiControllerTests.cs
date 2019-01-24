@@ -44,9 +44,8 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             Assert.Equal("CreatedWithTest", createModel.Name);
             Assert.Equal(25, createModel.Price);
 
+
             // List add Test
-
-
             var response = await client.GetAsync($"{BaseUrl}/list/");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -80,7 +79,6 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
 
 
             // DELETE with id
-
             var deleteResponse = await client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
 

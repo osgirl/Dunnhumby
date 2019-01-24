@@ -5,6 +5,7 @@ namespace Armin.Dunnhumby.Web.Helpers
 {
     public static class CommonHelper
     {
+        
         public static string GetRandomString(int len, bool upperChars, bool numbers)
         {
             string source = "abcdefghijklmnopqrstuvwxyz";
