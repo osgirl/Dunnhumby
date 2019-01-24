@@ -1,6 +1,7 @@
 ﻿using System;
 using Armin.Dunnhumby.Web;
 using Armin.Dunnhumby.Web.Data;
+using Armin.Dunnhumby.Web.Data.Seed;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            ProductsSeed.SeedData = false;
             builder.ConfigureServices(services =>
             {
                 // Create a new service provider.

@@ -63,7 +63,7 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
         // POST api/v1/products
         [HttpPost(Name = "CreateProduct")]
         [ProducesResponseType(201)]
-        public IActionResult Create([FromForm] ProductInputModel inputModel)
+        public IActionResult Create([FromBody] ProductInputModel inputModel)
         {
             if (inputModel == null)
                 return BadRequest();
@@ -74,14 +74,16 @@ namespace Armin.Dunnhumby.Web.Controllers.Api
             product = _store.Create(product);
 
             var outputModel = ProductOutputModel.FromEntity(product);
-            return CreatedAtRoute("ViewProduct",
+
+            var result = CreatedAtRoute("ViewProduct",
                 new {id = outputModel.Id}, outputModel);
+            return result;
         }
 
         // PUT api/v1/products
         [HttpPut("{id:int}")]
         [ProducesResponseType(204)]
-        public IActionResult Update(int id, [FromForm] ProductInputModel inputModel)
+        public IActionResult Update(int id, [FromBody] ProductInputModel inputModel)
         {
             if (inputModel == null)
                 return BadRequest();

@@ -75,12 +75,16 @@ namespace Armin.Dunnhumby.Web.Controllers
                 return View(inputModel);
             }
 
-            var product = inputModel.ToEntity();
+            var campaign = inputModel.ToEntity();
+            if (!_productStore.Exists(campaign.ProductId))
+            {
+                ModelState.AddModelError("Product", $"Product '{campaign.ProductId}' does not exists.");
+                return BadRequest(ModelState);
+            }
 
+            campaign = _service.Create(campaign);
 
-            product = _service.Create(product);
-
-            var outputModel = CampaignOutputModel.FromEntity(product);
+            var outputModel = CampaignOutputModel.FromEntity(campaign);
             return RedirectToAction(nameof(Index));
         }
 
@@ -108,6 +112,12 @@ namespace Armin.Dunnhumby.Web.Controllers
             }
 
             int campaignId = id;
+
+            if (!_productStore.Exists(inputModel.ProductId))
+            {
+                ModelState.AddModelError("Product", $"Product '{inputModel.ProductId}' does not exists.");
+                return BadRequest(ModelState);
+            }
 
             try
             {

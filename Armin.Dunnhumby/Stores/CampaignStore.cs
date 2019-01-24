@@ -20,6 +20,11 @@ namespace Armin.Dunnhumby.Web.Stores
             base.Delete(campaign);
         }
 
+        public override Campaign GetById(int id)
+        {
+            return Table.FirstOrDefault(c => c.Id == id);
+        }
+
         public override IQueryable<Campaign> Table => base.Table.Include("Product");
     }
 }
