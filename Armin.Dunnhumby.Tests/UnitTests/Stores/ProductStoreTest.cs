@@ -22,6 +22,7 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
             _db = BuildDataContext();
             _cache = BuildCache();
             _store = new ProductStore(_db, _cache);
+            var pc = _db.Products.Count();
         }
 
         [Fact]
@@ -29,7 +30,9 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
         {
             var prd = new Product
             {
-                Name = "TestProductName-Long"
+                Name = "TestProductName-Long",
+                Price = 50
+
             };
             var preCount = _db.Products.Count();
             var prdAfter = _store.Create(prd);
@@ -40,11 +43,13 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
 
             var prd1 = new Product
             {
-                Name = "TestProductName-Short"
+                Name = "TestProductName-Short",
+                Price = 60
             };
             var prd2 = new Product
             {
-                Name = "ProductName-Short"
+                Name = "ProductName-Short",
+                Price = 70
             };
             _store.Create(prd1);
             _store.Create(prd2);
@@ -53,13 +58,8 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
         }
 
         [Fact]
-        public void SearchTest()
+        public void ListTest()
         {
-            var all = _db.Products.ToList();
-            _db.RemoveRange(all);
-            _db.SaveChanges();
-
-            CreateTest();
             var task = _store.Search("TestProductName-Long");
             var result = task.Result;
             Assert.Single(result);
@@ -67,7 +67,7 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
             task = _store.Search("TestProductName");
             result = task.Result;
 
-            Assert.Equal(2, result.Count());
+            Assert.True(result.Any());
         }
 
         [Fact]
@@ -87,7 +87,6 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Stores
         [Fact]
         public void DeleteTest()
         {
-            CreateTest();
             var preCount = _db.Products.Count();
             var firstProduct = _db.Products.First();
             _store.Delete(firstProduct);

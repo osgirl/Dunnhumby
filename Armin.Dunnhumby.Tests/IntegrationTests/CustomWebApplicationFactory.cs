@@ -50,6 +50,17 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests
 
                     // Ensure the database is created.
                     db.Database.EnsureCreated();
+
+                    try
+                    {
+                        // Seed the database with test data.
+                        Utilities.PrepareDbForTests(db);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, $"An error occurred seeding the " +
+                                            "database with test messages. Error: {ex.Message}");
+                    }
                 }
             });
         }

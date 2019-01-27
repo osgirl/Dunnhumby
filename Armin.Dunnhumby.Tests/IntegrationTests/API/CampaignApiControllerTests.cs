@@ -16,17 +16,37 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
     public class CampaignApiControllerTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
+        private readonly HttpClient _client;
         private const string BaseUrl = "/api/v1/campaigns";
 
         public CampaignApiControllerTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
+            _client = _factory.CreateClient();
         }
+        private async Task<PagedResult<ProductOutputModel>> ListCampaigns()
+        {
+            var response = await _client.GetAsync(BaseUrl + "/list/");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            var listResult = JsonConvert.DeserializeObject<PagedResult<ProductOutputModel>>(responseString);
+            return listResult;
+        }
+
+        [Fact]
+        public async Task ListTest()
+        {
+            // List Campaigns
+            var listResult = await ListCampaigns();
+            Assert.True(listResult.RecordCount > 0);
+        }
+
 
         [Fact]
         public async Task FullTest()
         {
-            var client = _factory.CreateClient();
+
 
             // POST Create a product for later test purposes
             var pim = new ProductInputModel()
@@ -34,9 +54,9 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
                 Name = "CreatedWithTest",
                 Price = 25
             };
-            var content = new StringContent(JsonConvert.SerializeObject(pim), Encoding.Default, "text/json");
+            var content = new StringContent(JsonConvert.SerializeObject(pim), Encoding.Default, "application/json");
 
-            var createResponse = await client.PostAsync("/api/v1/products", content);
+            var createResponse = await _client.PostAsync("/api/v1/products", content);
 
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
@@ -52,8 +72,8 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
                 Start = DateTime.Now,
                 End = DateTime.Now.AddDays(5)
             };
-            content = new StringContent(JsonConvert.SerializeObject(cim), Encoding.Default, "text/json");
-            createResponse = await client.PostAsync(BaseUrl, content);
+            content = new StringContent(JsonConvert.SerializeObject(cim), Encoding.Default, "application/json");
+            createResponse = await _client.PostAsync(BaseUrl, content);
             responseString = await createResponse.Content.ReadAsStringAsync();
             var createdCampaign = JsonConvert.DeserializeObject<CampaignOutputModel>(responseString);
             Assert.NotNull(createdCampaign);
@@ -62,11 +82,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
 
 
             // List Campaigns
-            var response = await client.GetAsync(BaseUrl + "/list/");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-            responseString = await response.Content.ReadAsStringAsync();
-            var listResult = JsonConvert.DeserializeObject<PagedResult<ProductOutputModel>>(responseString);
+            var listResult = await ListCampaigns();
             Assert.True(listResult.RecordCount > 0);
 
 
@@ -79,16 +95,16 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
                 Start = DateTime.Now.AddDays(1),
                 End = DateTime.Now.AddDays(5)
             };
-            var updateContent = new StringContent(JsonConvert.SerializeObject(cim), Encoding.Default, "text/json");
+            var updateContent = new StringContent(JsonConvert.SerializeObject(cim), Encoding.Default, "application/json");
 
-            var updateResponse = await client.PutAsync(BaseUrl + $"/{createdCampaign.Id}", updateContent);
+            var updateResponse = await _client.PutAsync(BaseUrl + $"/{createdCampaign.Id}", updateContent);
             var updateBody = await updateResponse.Content.ReadAsStringAsync();
             Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
 
 
 
             // GET with id
-            var getResponse = await client.GetAsync($"{BaseUrl}/{createdCampaign.Id}");
+            var getResponse = await _client.GetAsync($"{BaseUrl}/{createdCampaign.Id}");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
 
             var getBody = await getResponse.Content.ReadAsStringAsync();
@@ -98,12 +114,12 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
 
 
             // DELETE with id
-            var deleteResponse = await client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
+            var deleteResponse = await _client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
 
 
             // GET with id
-            var getNoResponse = await client.GetAsync($"{BaseUrl}/{getModel.Id}");
+            var getNoResponse = await _client.GetAsync($"{BaseUrl}/{getModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, getNoResponse.StatusCode);
         }
     }

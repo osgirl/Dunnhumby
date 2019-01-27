@@ -21,6 +21,6 @@ namespace Armin.Dunnhumby.Web.Entities
         public string Description { get; set; }
 
 
-        public List<Campaign> Campaigns;
+        public virtual List<Campaign> Campaigns { get; set; }
     }
 }

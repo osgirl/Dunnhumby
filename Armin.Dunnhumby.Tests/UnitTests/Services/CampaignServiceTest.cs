@@ -25,8 +25,6 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Services
         [Fact]
         public void CreateTest()
         {
-            ClearData();
-
             var prd = new Product
             {
                 Name = "TestProduct",
@@ -63,26 +61,22 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Services
         [Fact]
         public void ListTest()
         {
-            CreateTest();
             var result = _service.List();
-            Assert.Equal(2, result.Count);
+            Assert.True(result.Any());
         }
 
 
         [Fact]
         public void ActiveTest()
         {
-            CreateTest();
-            var resultAll = _service.List(1);
-            var resultActive = _service.ActiveList(1);
+            var resultAll = _service.List(1, 500);
+            var resultActive = _service.ActiveList(1, 500);
             Assert.NotEqual(resultActive.Data.Count, resultAll.Data.Count);
         }
 
         [Fact]
         public void UpdateTest()
         {
-            CreateTest();
-
             var firstCampaign = _db.Campaigns.First(c => c.Name != "Updated");
             firstCampaign.Name = "Updated";
             DateTime now = DateTime.Now;
@@ -97,24 +91,9 @@ namespace Armin.Dunnhumby.Tests.UnitTests.Services
         [Fact]
         public void DeleteTest()
         {
-            CreateTest();
-
-            var preCount = _db.Campaigns.Count();
             var firstCampaign = _db.Campaigns.First();
             _service.Delete(firstCampaign);
-            var postCount = _db.Campaigns.Count();
-
-            Assert.True(preCount > postCount);
-        }
-
-        private void ClearData()
-        {
-            var allCampaigns = _db.Campaigns.ToList();
-            _db.RemoveRange(allCampaigns);
-            var all = _db.Products.ToList();
-            _db.RemoveRange(all);
-
-            _db.SaveChanges();
+            Assert.False(_service.Exists(firstCampaign.Id));
         }
     }
 }

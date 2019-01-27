@@ -14,27 +14,35 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
     public class ProductApiControllerTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
+        private readonly HttpClient _client;
         private const string BaseUrl = "/api/v1/products";
 
         public ProductApiControllerTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
+            _client = _factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task ListTest()
+        {
+            // List add Test
+            var searchResult = await ListProducts();
+            Assert.True(searchResult.RecordCount > 0);
         }
 
         [Fact]
         public async Task FullTest()
         {
-            var client = _factory.CreateClient();
-
             // POST Create
             var pim = new ProductInputModel()
             {
                 Name = "CreatedWithTest",
                 Price = 25
             };
-            var content = new StringContent(JsonConvert.SerializeObject(pim),Encoding.Default, "text/json");
+            var content = new StringContent(JsonConvert.SerializeObject(pim), Encoding.Default, "text/json");
 
-            var createResponse = await client.PostAsync(BaseUrl, content);
+            var createResponse = await _client.PostAsync(BaseUrl, content);
 
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
@@ -46,13 +54,7 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
 
 
             // List add Test
-            var response = await client.GetAsync($"{BaseUrl}/list/");
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-            responseString = await response.Content.ReadAsStringAsync();
-
-            var searchResult = JsonConvert.DeserializeObject<PagedResult<ProductOutputModel>>(responseString);
+            var searchResult = await ListProducts();
             Assert.True(searchResult.RecordCount > 0);
 
 
@@ -64,12 +66,12 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
             };
             var updateContent = new StringContent(JsonConvert.SerializeObject(pim), Encoding.Default, "text/json");
 
-            var updateResponse = await client.PutAsync($"{BaseUrl}/{createModel.Id}", updateContent);
+            var updateResponse = await _client.PutAsync($"{BaseUrl}/{createModel.Id}", updateContent);
             Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
 
 
             // GET with id
-            var getResponse = await client.GetAsync($"{BaseUrl}/{createModel.Id}");
+            var getResponse = await _client.GetAsync($"{BaseUrl}/{createModel.Id}");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
 
             var getBody = await getResponse.Content.ReadAsStringAsync();
@@ -79,12 +81,21 @@ namespace Armin.Dunnhumby.Tests.IntegrationTests.API
 
 
             // DELETE with id
-            var deleteResponse = await client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
+            var deleteResponse = await _client.DeleteAsync($"{BaseUrl}/{getModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
 
             // GET with id
-            var getNoResponse = await client.GetAsync($"{BaseUrl}/{createModel.Id}");
+            var getNoResponse = await _client.GetAsync($"{BaseUrl}/{createModel.Id}");
             Assert.Equal(HttpStatusCode.NoContent, getNoResponse.StatusCode);
+        }
+
+        private async Task<PagedResult<ProductOutputModel>> ListProducts()
+        {
+            var response = await _client.GetAsync($"{BaseUrl}/list/");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<PagedResult<ProductOutputModel>>(responseString);
+            return searchResult;
         }
     }
 }
