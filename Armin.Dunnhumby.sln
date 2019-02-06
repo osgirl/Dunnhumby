@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armin.Dunnhumby.Domain", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armin.Dunnhumby.UnitTests", "Armin.Dunnhumby.UnitTests\Armin.Dunnhumby.UnitTests.csproj", "{220B9DCA-DDF3-4543-96D4-1ACC63127168}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{50DF1E4E-988C-4F4C-AD7B-3FADDD44BBD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{090121EB-A6E2-4B05-B7DE-9B4A7AC151A0} = {50DF1E4E-988C-4F4C-AD7B-3FADDD44BBD0}
+		{220B9DCA-DDF3-4543-96D4-1ACC63127168} = {50DF1E4E-988C-4F4C-AD7B-3FADDD44BBD0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1DF0692-79A6-49E4-87BB-988248D5A0B5}
