@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Armin.Dunnhumby.Web.Entities;
+using Armin.Dunnhumby.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
 namespace Armin.Dunnhumby.Web.Models

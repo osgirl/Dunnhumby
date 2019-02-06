@@ -1,5 +1,5 @@
 ﻿using System;
-using Armin.Dunnhumby.Web.Data;
+using Armin.Dunnhumby.Domain.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
